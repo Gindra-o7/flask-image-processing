@@ -4,6 +4,8 @@ from src.controllers.basic_operations_controller import crop, rotate, resize, fl
 from src.controllers.color_adjustments_controller import brightness, contrast, saturation
 from src.controllers.filters_controller import filter
 from src.controllers.text_and_border_controller import add_text_endpoint, add_border_endpoint
+from src.controllers.convert_controller import convert
+from src.controllers.collage_controller import create_collage_endpoint
 
 # Blueprint untuk semua endpoint yang berhubungan dengan gambar
 image_bp = Blueprint('image', __name__)
@@ -30,3 +32,9 @@ image_bp.route('/filter', methods=['POST'])(filter)
 # Rute untuk teks dan border
 image_bp.route('/text', methods=['POST'])(add_text_endpoint)
 image_bp.route('/border', methods=['POST'])(add_border_endpoint)
+
+# Rute untuk konversi format
+image_bp.route('/convert', methods=['POST'])(convert)
+
+# Rute untuk kolase
+image_bp.route('/collage', methods=['POST'])(create_collage_endpoint)
