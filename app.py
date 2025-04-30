@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 import pytz
 
-from src.controllers.image_controller import image_bp
+from src.routes.route import image_bp
 
 app = Flask(__name__)
 CORS(app)
