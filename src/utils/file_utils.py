@@ -78,18 +78,27 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
         
-def save_image(img, output_path):
+def save_image(img, output_path, format=None):
     """Menyimpan gambar dengan format yang sesuai"""
     format_mapping = {
         '.jpg': 'JPEG',
         '.jpeg': 'JPEG',
         '.png': 'PNG',
         '.gif': 'GIF',
-        '.webp': 'WEBP'
+        '.webp': 'WEBP',
+        '.bmp': 'BMP',
+        '.fits': 'FITS',
+        '.pgm': 'PPM',
+        '.tiff': 'TIFF',
+        '.tif': 'TIFF'
     }
     
-    file_ext = os.path.splitext(output_path)[1].lower()
-    save_format = format_mapping.get(file_ext, 'JPEG')
+    # Jika format diberikan, gunakan itu, jika tidak ambil dari ekstensi file
+    if format:
+        save_format = format
+    else:
+        file_ext = os.path.splitext(output_path)[1].lower()
+        save_format = format_mapping.get(file_ext, 'JPEG')
     
     # Tambahkan opsi kualitas jika format mendukung
     if save_format == 'JPEG':
@@ -107,3 +116,12 @@ def generate_preview(input_path, output_path, max_size=(800, 800)):
     with Image.open(input_path) as img:
         img.thumbnail(max_size)
         return save_image(img, output_path)
+    
+# Update allowed_file untuk mendukung semua format
+def update_allowed_extensions():
+    """Update ALLOWED_EXTENSIONS di konfigurasi untuk mendukung lebih banyak format"""
+    from flask import current_app
+    current_app.config['ALLOWED_EXTENSIONS'].update({
+        'bmp', 'fits', 'pgm', 'tiff', 'tif'
+    })
+    return current_app.config['ALLOWED_EXTENSIONS']
