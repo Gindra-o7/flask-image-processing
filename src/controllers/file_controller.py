@@ -58,11 +58,14 @@ def list_images():
                 file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
                 if os.path.isfile(file_path):
                     preview_filename = f"preview_{filename}"
-                    preview_path = f"/uploads/{preview_filename}"
+                    
+                    base_url = request.url_root.rstrip('/')
+                    path_url = f"{base_url}/uploads/{filename}"
+                    preview_path = f"{base_url}/uploads/{preview_filename}"
                     
                     files.append({
                         'filename': filename,
-                        'path': f"/uploads/{filename}",
+                        'path': path_url,
                         'preview_path': preview_path if os.path.exists(os.path.join(current_app.config['UPLOAD_FOLDER'], preview_filename)) else None,
                         'size': os.path.getsize(file_path),
                         'modified': os.path.getmtime(file_path)
