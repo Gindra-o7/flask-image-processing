@@ -16,7 +16,7 @@ CORS(app)
 app.config.from_pyfile('src/configs/config.py')
 
 # Register blueprints
-app.register_blueprint(image_bp, url_prefix='/api/images')
+app.register_blueprint(image_bp, url_prefix='/api')
 
 # Route untuk mengakses file yang diupload
 @app.route('/uploads/<filename>')
