@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, current_app
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
@@ -56,6 +56,10 @@ def internal_error(error):
         'status': 'error',
         'message': 'Terjadi kesalahan server internal'
     }), 500
+
+@app.route('/uploads/<filename>')
+def serve_upload(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     # Memastikan folder uploads ada
